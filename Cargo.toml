@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "not-br-lib",
+    "not-br-cli",
+    "not-br-ffi",
+]
