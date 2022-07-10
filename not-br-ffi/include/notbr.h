@@ -1,7 +1,7 @@
 #ifndef NOT_BR_RS_NOT_BRR_H
 #define NOT_BR_RS_NOT_BRR_H
 
-enum InputType
+enum OutputType
 {
     NotBrHTML = 1,
     NotBrMarkdown = 2,
