@@ -1,10 +1,7 @@
-#![feature(core_ffi_c)]
-
 extern crate core;
 
-use core::ffi::{c_int};
 use std::ffi::{CStr, CString};
-use std::os::raw::{c_char};
+use std::os::raw::{c_char, c_int};
 use not_br_lib::not_br;
 use not_br_lib::not_br::NotBrProcess;
 
