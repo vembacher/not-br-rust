@@ -42,11 +42,11 @@ pub mod not_br {
 
 
     pub trait NotBrProcess<T> {
-        fn process_text(self, fixation: u64, bold_percentage: f64, input_type: OutputType) -> Result<T, ()>;
+        fn process_text(self, fixation: u64, bold_percentage: f64, output_type: OutputType) -> Result<T, ()>;
     }
 
     impl NotBrProcess<String> for &str {
-        fn process_text(self, frequency: u64, bold_percentage: f64, input_type: OutputType) -> Result<String, ()> {
+        fn process_text(self, frequency: u64, bold_percentage: f64, output_type: OutputType) -> Result<String, ()> {
             if frequency == 0 { return Ok(String::from(self)); }
             if !(0_f64 <= bold_percentage && bold_percentage <= 1_f64) { return Err(()); }
             let input = self;
@@ -64,9 +64,9 @@ pub mod not_br {
                     let word_len = graphemes.len();
                     graphemes.into_iter().enumerate()
                         .for_each(|(j, graph)| {
-                            if j == 0 && ((word_len as f64 * bold_percentage).ceil() as isize) > 0 { acc.push_str(input_type.get_open()) }
+                            if j == 0 && ((word_len as f64 * bold_percentage).ceil() as isize) > 0 { acc.push_str(output_type.get_open()) }
                             acc.push_str(graph);
-                            if j as isize == ((word_len as f64 * bold_percentage).ceil() as isize) - 1 { acc.push_str(input_type.get_closing()) }
+                            if j as isize == ((word_len as f64 * bold_percentage).ceil() as isize) - 1 { acc.push_str(output_type.get_closing()) }
                         })
                 }
 
@@ -77,13 +77,13 @@ pub mod not_br {
     }
 
     impl NotBrProcess<CString> for &CStr {
-        fn process_text(self, frequency: u64, bold_percentage: f64, input_type: OutputType) -> Result<CString, ()> {
+        fn process_text(self, frequency: u64, bold_percentage: f64, output_type: OutputType) -> Result<CString, ()> {
             if !(0_f64 <= bold_percentage && bold_percentage <= 1_f64) { return Err(()); }
             let input = match self.to_str() {
                 Ok(s) => { s }
                 Err(_) => { return Err(()); }
             };
-            let retval = input.process_text(frequency, bold_percentage, input_type);
+            let retval = input.process_text(frequency, bold_percentage, output_type);
             match retval {
                 Ok(retval) => {
                     Ok(CString::new(retval).unwrap())
@@ -93,8 +93,8 @@ pub mod not_br {
         }
     }
 
-    pub fn process<I: NotBrProcess<O>, O>(input: I, frequency: u64, bold_percentage: f64, input_type: OutputType) -> Result<O, ()> {
-        input.process_text(frequency, bold_percentage, input_type)
+    pub fn process<I: NotBrProcess<O>, O>(input: I, frequency: u64, bold_percentage: f64, output_type: OutputType) -> Result<O, ()> {
+        input.process_text(frequency, bold_percentage, output_type)
     }
 }
 
