@@ -6,6 +6,7 @@ members = [
     "not-br-ffi",
     "not-br-node",
     "not-br-python",
+    "not-br-wasm"
 ]
 
 [profile.release]

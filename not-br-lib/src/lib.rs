@@ -26,6 +26,12 @@ pub mod not_br {
                 OutputType::Markdown => { "**" }
             }
         }
+        pub fn get_newline(&self) -> &str {
+            match self {
+                OutputType::HTML => { r"<br/>" }
+                OutputType::Markdown => { r"\" }
+            }
+        }
     }
 
     impl FromStr for OutputType {
@@ -56,7 +62,9 @@ pub mod not_br {
                 let is_word = UnicodeSegmentation::unicode_words(w).collect::<Vec<&str>>().len() != 0;
                 if word_counter % frequency as usize != 0 || !is_word {
                     if is_word { word_counter += 1; };
-                    return acc.add(w);
+                    return if w == "\n" {
+                        acc.add(output_type.get_newline())
+                    } else { acc.add(w) };
                 } else {
                     if is_word { word_counter += 1; };
                     let graphemes = UnicodeSegmentation::graphemes(w, true)
@@ -232,6 +240,20 @@ mod not_br_tests {
 
             assert_eq!(output_markdown.unwrap(), expected_markdown);
             assert_eq!(output_html.unwrap(), expected_html);
+        }
+
+        #[test]
+        fn test_newline() {
+            let input = "Lorem ipsum dolor sit amet.\nConsetetur sadipscing elitr.";
+
+            let output_markdown = input.process_text(1, 0., OutputType::Markdown);
+            let output_html = input.process_text(1, 0., OutputType::HTML);
+
+            let expected_markdown = String::from(r"Lorem ipsum dolor sit amet.\Consetetur sadipscing elitr.");
+            let expected_html = String::from(r"Lorem ipsum dolor sit amet.<br/>Consetetur sadipscing elitr.");
+
+            assert_eq!(output_html.unwrap(), expected_html);
+            assert_eq!(output_markdown.unwrap(), expected_markdown);
         }
     }
 }
