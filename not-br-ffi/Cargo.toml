@@ -10,3 +10,6 @@ name = "notbr"
 
 [dependencies]
 not-br-lib = {path = "../not-br-lib"}
+
+[build-dependencies]
+cbindgen = "0.24.3"

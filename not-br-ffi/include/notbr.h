@@ -1,14 +1,21 @@
-#ifndef NOT_BR_RS_NOT_BRR_H
-#define NOT_BR_RS_NOT_BRR_H
+#ifndef notbr_h
+#define notbr_h
 
-enum OutputType
-{
-    NotBrHTML = 1,
-    NotBrMarkdown = 2,
-};
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdlib.h>
 
-char *process_text(char *input, int frequency, int bold_percentage, int input_type);
+typedef enum OutputType {
+  NotBrHtml = 1,
+  NotBrMarkdown = 2,
+} OutputType;
+
+char *process_text(const char *input,
+                   int frequency,
+                   int bold_percentage,
+                   enum OutputType output_type);
 
 void not_br_free(char *output);
 
-#endif //NOT_BR_RS_NOT_BRR_H
+#endif /* notbr_h */

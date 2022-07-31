@@ -7,3 +7,6 @@ members = [
     "not-br-node",
     "not-br-python",
 ]
+
+[profile.release]
+lto = true

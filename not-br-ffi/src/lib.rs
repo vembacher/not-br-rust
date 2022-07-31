@@ -7,31 +7,24 @@ use not_br_lib::not_br::NotBrProcess;
 
 #[repr(C)]
 pub enum OutputType {
-    HTML = 1,
-    Markdown = 2,
+    NotBrHtml = 1,
+    NotBrMarkdown = 2,
 }
 
 impl OutputType {
     fn get_internal_enum(&self) -> not_br::OutputType {
         match self {
-            OutputType::HTML => not_br::OutputType::HTML,
-            OutputType::Markdown => not_br::OutputType::Markdown,
-        }
-    }
-    fn from(i: c_int) -> OutputType {
-        match i {
-            1 => OutputType::HTML,
-            2 => OutputType::Markdown,
-            _ => panic!("Error.")
+            OutputType::NotBrHtml => not_br::OutputType::HTML,
+            OutputType::NotBrMarkdown => not_br::OutputType::Markdown,
         }
     }
 }
 
 
 #[no_mangle]
-pub extern "C" fn process_text(input: *const c_char, frequency: c_int, bold_percentage: c_int, input_type: c_int) -> *mut c_char {
+pub extern "C" fn process_text(input: *const c_char, frequency: c_int, bold_percentage: c_int, output_type: OutputType) -> *mut c_char {
     unsafe { CStr::from_ptr(input) }
-        .process_text(frequency as u64, (bold_percentage as f64) / 100_f64, OutputType::from(input_type).get_internal_enum())
+        .process_text(frequency as u64, (bold_percentage as f64) / 100_f64, output_type.get_internal_enum())
         .map_or(std::ptr::null_mut(), |s| s.into_raw())
 }
 
