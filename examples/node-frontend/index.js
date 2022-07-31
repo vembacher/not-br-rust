@@ -1,6 +1,6 @@
 const input = document.querySelector("#input-0");
 const output = document.querySelector("#output-0");
-console.log(input)
+
 import("./node_modules/not-br-wasm/not_br_wasm.js").then((js) => {
     input.addEventListener("input", evt => {
         console.log(evt.target.value)
