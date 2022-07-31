@@ -1,0 +1,21 @@
+{
+  "name": "not-br-frontend-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "webpack-dev-server"
+  },
+  "dependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "not-br-wasm": "../../not-br-wasm/pkg/"
+  },
+  "devDependencies": {
+    "@wasm-tool/wasm-pack-plugin": "^1.6.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.3"
+  },
+  "author": "",
+  "license": "ISC"
+}
